@@ -4,23 +4,36 @@
 <head>
     <meta charset="utf-8" />
     <title>BusMall</title>
-   <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css">
+
 </head>
 
 <body>
+    <header>
+        <h1>BusMall</h1>
+        <h2>Welcome to our periodical</h2>
+        <form action="">
+            <label for="rounds">choose the number of rounds</label>
+            <input name="rounds" id="rounds" type="number">
+            <input type="submit">
+        </form>
+    </header>
 
-    <img id="first" src=" ">
-    <img id="second" src=" ">
-    <img id="third" src=" ">
-    <ul id="results"></ul>
-    <header></header>
+    <main>
+        <div id="imgdiv">
+            <img id="first" src=" ">
+            <img id="second" src=" ">
+            <img id="third" src=" ">
+        </div>
+        <ul id="results"></ul>
+        <canvas id="myChart" width="400" width="400"></canvas>
 
-    <main id="main-content">
-
+        <input type="submit" id="final-results">
     </main>
 
     <footer></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="js/app.js"></script>
 </body>
-
 </html>
