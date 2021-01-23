@@ -10,25 +10,28 @@
 
 <body>
     <header>
-        <h1>BusMall</h1>
-        <h2>Welcome to our periodical</h2>
-        <form action="">
-            <label for="rounds">choose the number of rounds</label>
-            <input name="rounds" id="rounds" type="number">
-            <input type="submit">
-        </form>
     </header>
+    <h1>BusMall</h1>
+    <h2>Welcome to our periodical</h2>
+    <form action="" id="max">
+        <label for="rounds">choose the number of rounds</label>
+        <input name="rounds" id="rounds" type="number">
+        <input type="submit" value="set round">
+    </form>
 
     <main>
+        <div id="img-pr">
         <div id="imgdiv">
-            <img id="first" src=" ">
-            <img id="second" src=" ">
-            <img id="third" src=" ">
+            <img id="first" src="" alt="">
+            <img id="second" src="" alt="">
+            <img id="third" src="" alt="">
         </div>
+    </div>
         <ul id="results"></ul>
-        <canvas id="myChart" width="400" width="400"></canvas>
+        <input type="submit" id="final-results" name="final-results"  value="showreslut" disabled >
+        <canvas id="myChart"></canvas>
 
-        <input type="submit" id="final-results">
+
     </main>
 
     <footer></footer>
@@ -36,4 +39,5 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script src="js/app.js"></script>
 </body>
+
 </html>
