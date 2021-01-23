@@ -1,131 +1,164 @@
-'use strict';
-//use global var:
+"use strict";
 var ctx = document.getElementById("myChart").getContext('2d');
 
-var totalClicks = 0; 
-var firstImg = document.getElementById('first');
-var secondImg = document.getElementById('second');
-var thirdImg = document.getElementById('third');
-var results = document.getElementById('results');
-var lastShownImages = [];
-var imagesNames = [];
+var first =document.getElementById("first");
+var second =document.getElementById("second");
+var third =document.getElementById("third");
+var showresluts=document.getElementById("final-results");
+var submitButten=document.getElementById('max');
+var max =25;
+var Counter = 0;
+var imgpr =document.getElementById("img-pr");
+var firstIndex;
+var secondIndex;
+var thirdIndex;
+
+var lastShowFirstIndex= -1;
+var lastShowSecondIndex=-1;
+var lastShowThirdIndex=-1;
+
+var votesArray = [];
+var watchArray=[];
+var names = [];
 
 
-var allProducts = [];
 
-var votes = [];
-
-//create Constructor function for 'Product' objects:
-function Product(name, imgPath) {
-  this.name = name;
-  this.imgPath = imgPath;
-  this.views = 0; 
-  this.votes = 0; 
-  allProducts.push(this); 
-  imagesNames.push(name);
+function Product (name,source ){
+this.name=name;
+this.source=source ;
+this.votes=0;
+this.watch=0;
+Product.prototype.allProduct.push(this);
+productsName.push(name);
 
 }
 
-// create an "object type", is to use an object constructor function:
-new Product('bag', 'img/bag.jpg');
-new Product('banana', 'img/banana.jpg');
-new Product('bathroom', 'img/bathroom.jpg');
-new Product('boots', 'img/boots.jpg');
-new Product('breakfast', 'img/breakfast.jpg');
-new Product('bubblegum', 'img/bubblegum.jpg');
-new Product('chair', 'img/chair.jpg');
-new Product('cthulhu', 'img/cthulhu.jpg');
-new Product('dog-duck', 'img/dog-duck.jpg');
-new Product('dragon', 'img/dragon.jpg');
-new Product('pen', 'img/pen.jpg');
-new Product('pet-sweep', 'img/pet-sweep.jpg');
-new Product('scissors', 'img/scissors.jpg');
-new Product('shark', 'img/shark.jpg');
-new Product('sweep', 'img/sweep.png');
-new Product('tauntaun', 'img/tauntaun.jpg');
-new Product('unicorn', 'img/unicorn.jpg');
-new Product('usb', 'img/usb.gif');
-new Product('water-can', 'img/water-can.jpg');
-new Product('wine-glass', 'img/wine-glass.jpg');
-// console.log(allProducts);
-//create a random image function:
-function randomImage() {
-  var firstRandom = Math.floor(Math.random() * allProducts.length);
-  var secondRandom = Math.floor(Math.random() * allProducts.length);
-  var thirdRandom = Math.floor(Math.random() * allProducts.length);
+var productsName=[];
 
-  while (firstRandom === secondRandom || firstRandom === thirdRandom || secondRandom === thirdRandom || lastShownImages.includes(firstRandom) || lastShownImages.includes(secondRandom) || lastShownImages.includes(thirdRandom)) {
-    firstRandom = Math.floor(Math.random() * allProducts.length);
-    secondRandom = Math.floor(Math.random() * allProducts.length);
-    thirdRandom = Math.floor(Math.random() * allProducts.length);
-  }
-  lastShownImages[0] = firstRandom;
-  lastShownImages[1] = secondRandom;
-  lastShownImages[2] = thirdRandom;
 
-  // console.log(lastShownImages);
+Product.prototype.allProduct=[];
+new Product('bag','img/bag.jpg');
+new Product('banana','img/banana.jpg');
+new Product('bathroom','img/bathroom.jpg');
+new Product('boots','img/boots.jpg');
+new Product('breakfast','img/breakfast.jpg');
+new Product('bubblegum','img/bubblegum.jpg');
+new Product('chair','img/chair.jpg');
+new Product('cthulhu','img/cthulhu.jpg');
+new Product('dog-duck','img/dog-duck.jpg');
+new Product('dragon','img/dragon.jpg');
+new Product('pen','img/pen.jpg');
+new Product('pet-sweep','img/pet-sweep.jpg');
+new Product('scissors','img/scissors.jpg');
+new Product('shark','img/shark.jpg');
+new Product('sweep','img/sweep.png');
+new Product('tauntaun','img/tauntaun.jpg');
+new Product('unicorn','img/unicorn.jpg');
+new Product('usb','img/usb.gif');
+new Product('water-can','img/water-can.jpg');
+new Product('wine-glass','img/wine-glass.jpg');
 
-  firstImg.src = allProducts[firstRandom].imgPath;
-  secondImg.src = allProducts[secondRandom].imgPath;
-  thirdImg.src = allProducts[thirdRandom].imgPath;
-
-  firstImg.alt = allProducts[firstRandom].name;
-  secondImg.alt = allProducts[secondRandom].name;
-  thirdImg.alt = allProducts[thirdRandom].name;
-  // console.log(firstImg);
-
-  allProducts[firstRandom].views++;
-  allProducts[secondRandom].views++;
-  allProducts[thirdRandom].views++;
-
-  totalClicks++;
-  // console.log(totalClicks);
-  if (totalClicks === 25) {
-    firstImg.removeEventListener('click', handleImageClick);
-    secondImg.removeEventListener('click', handleImageClick);
-    thirdImg.removeEventListener('click', handleImageClick);
-    displayResults(); 
-  }
+function randomlyGenerate(){
+  return Math.floor(Math.random() * Product.prototype.allProduct.length);
 }
-function handleImageClick(event) {
-  // console.log(event.target.alt);
-  randomImage();
 
-  for (var i = 0; i < allProducts.length; i++) {
-    if (event.target.alt === allProducts[i].name) {
-      allProducts[i].votes++;
-    }
+function ProductRandomly(){
+  var forbiddenIndex=[lastShowFirstIndex,lastShowSecondIndex,lastShowThirdIndex]
+
+
+     
+      do{
+        firstIndex = randomlyGenerate();
+        
+    } while (forbiddenIndex.includes(firstIndex));
+    lastShowFirstIndex=firstIndex;
+        forbiddenIndex.push(firstIndex);
+     
+
+     do{
+      secondIndex = randomlyGenerate();
+  
+  }while (forbiddenIndex.includes(secondIndex)) ;
+  lastShowSecondIndex=secondIndex;
+     forbiddenIndex.push(secondIndex);
+  
+     do{
+      thirdIndex = randomlyGenerate();
+  }while ( forbiddenIndex.includes( thirdIndex));
+  lastShowThirdIndex= thirdIndex;
  
-    var votes = [];
-    for (var j = 0; j < allProducts.length; j++) {
-      votes.push(allProducts[j].votes);
+
+
+     first.src= Product.prototype.allProduct[firstIndex].source ;
+     Product.prototype.allProduct[firstIndex].watch++;           
+     second.src= Product.prototype.allProduct[secondIndex].source ;
+     Product.prototype.allProduct[secondIndex].watch++;            
+     third.src= Product.prototype.allProduct[thirdIndex].source ;
+     Product.prototype.allProduct[thirdIndex].watch++;            
+    
+}
+ProductRandomly();
+getTheData();
+
+imgpr.addEventListener('click', handleClick);
+showresluts.addEventListener('click',showreslut);
+submitButten.addEventListener('submit', setMaxUserRounds);
+
+function handleClick (event) {
+
+  if(Counter < max){
+
+    if(event.target.id ==='first'){
+
+      Counter++
+      Product.prototype.allProduct[firstIndex].votes++;           
+      ProductRandomly();
+
+    }else if(event.target.id ==='second'){
+      
+      Counter++
+      Product.prototype.allProduct[secondIndex].votes++;            
+      ProductRandomly();
+
+    }else if(event.target.id ==='third'){
+      
+      Counter++
+      Product.prototype.allProduct[thirdIndex].votes++;            
+      ProductRandomly();
+
     }
-    myChart.config.data.datasets[0].data = votes;
-    // console.log(myChart.config.data.datasets[0].data);
-  }
+  }else {
+   
+    imgdiv.removeEventListener('click',handleClick);
+    showresluts.disabled = false;
+for(var i=0;i<Product.prototype.allProduct.length;i++){
+votesArray.push(Product.prototype.allProduct[i].votes);
+watchArray.push(Product.prototype.allProduct[i].watch);
+
 }
-randomImage();
-function displayResults() {
-  for (var i = 0; i < allProducts.length; i++) {
-    var listEl = document.createElement('li');
-    listEl.textContent = allProducts[i].votes + ' votes for the ' + allProducts[i].name + ' and ' + allProducts[i].views + ' views ';
-    results.appendChild(listEl);
-  }
+ }
+  
 }
 
-firstImg.addEventListener('click', handleImageClick);
-secondImg.addEventListener('click', handleImageClick);
-thirdImg.addEventListener('click', handleImageClick);
 
-//creat chart js
-// var ctx = document.getElementById('myChart').getContext('2d');
-var myChart = new Chart(ctx, {
+ function showreslut(event){
+  var resultList =document.getElementById('results');
+
+  var finalResult;
+  for(var i=0;i < Product.prototype.allProduct.length;i++){
+    finalResult=document.createElement('li');
+    finalResult.textContent=Product.prototype.allProduct[i].name+
+    'has'+Product.prototype.allProduct[i].votes+'votes ,and was seen'+Product.prototype.allProduct[i].watch+'times. And the prsentge = '+Product.prototype.allProduct[i].votes/
+max    ;
+    resultList.appendChild(finalResult);
+    
+ var myChart = new Chart(ctx, {
   type: 'bar',
   data: {
-      labels: imagesNames,
+      labels: productsName,
       datasets: [{
-          label: 'BusMall periodical',
-          data:votes ,
+          label: 'BusMall votes',
+          data:votesArray ,
           backgroundColor: [
               'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
@@ -143,7 +176,29 @@ var myChart = new Chart(ctx, {
               'rgba(255, 159, 64, 1)'
           ],
           borderWidth: 1
-      }]
+      }
+  ,{
+    label: 'BusMall watch',
+    data:watchArray ,
+    backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)',
+        'rgba(75, 192, 192, 0.2)',
+        'rgba(153, 102, 255, 0.2)',
+        'rgba(255, 159, 64, 0.2)'
+    ],
+    borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)'
+    ],
+    borderWidth: 1
+}]
+
   },
   options: {
       scales: {
@@ -155,11 +210,35 @@ var myChart = new Chart(ctx, {
       }
   }
 });
+  }
+
+
+ }
+
+ function setMaxUserRounds (event){
+    event.preventDefault();
+   max= event.target.rounds.value;
+    var StorageData =JSON.stringify(Product.prototype.allProduct);
+    localStorage.setItem('product',StorageData);
+  }
+  
+ 
 
 
 
 
-// console.log(myChart);
+
+
+function getTheData (){
+  var ProductList =localStorage.getItem('product');
+  var jsProductList = JSON.parse(ProductList);
+
+  if(jsProductList != null )
+  Product.prototype.allProduct = jsProductList ;
+
+
+}
+
 
 
 
